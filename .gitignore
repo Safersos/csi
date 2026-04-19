@@ -2,3 +2,7 @@ data/
 *.dat
 *.log
 *.zip
+*.npz
+pose_*.npy
+misc/personal_notes.txt
+*.pt

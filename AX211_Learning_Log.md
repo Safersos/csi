@@ -26,3 +26,18 @@ When active, extracting high-speed telemetry on modern OFDMA networks yielded ex
 - **Start Goal**: Passive Hopping (~50 Hz)
 - **Ended Pipeline**: Aggressive Broadcast Feedback (>160 Hz real throughput).
 - **Integrity**: Achieved massive high-definition visualization matrices, mapping 20,159 completely uncorrupted packets securely mapped onto the Doppler projection.
+
+## Phase I & II: Machine Learning Pipeline Bridge
+
+### 5. SFO Phase Sanitization
+* **Goal**: Resolving the raw signal's SFO (Sampling Frequency Offset) linear slope distortion across subcarriers.
+* **Fix**: Built an automated `np.unwrap` and linear demeaning parameter (`np.polyfit(deg=1)`) logic across the 213 subcarriers, evaluated packet-by-packet (`rf/preprocess_csi.py`). Output translates erratic phase sawtooth boundaries into mathematically stable array structures.
+
+### 6. Video Extraction & YOLOv8 Transition
+* **Goal**: Extrapolating a continuous ground-truth physical matrix for the Transformer 'Teacher'.
+* **Problem**: Original MediaPipe `mp.solutions.pose` API threw aggressive deprecation crashes inside the modern Python 3.13 Linux environment. 
+* **Fix**: Pivot executed to Ultralytics `YOLOv8-pose`. It bypassed all driver failures, processes physical geometry magnitudes faster, and explicitly guarantees the targeted `17-point` structural tensor shapes perfectly mapped across the videos.
+
+### 7. The Video Fragmentation "Gap" Algorithm
+* **Problem**: `dynamic_room` CSI ran totally uninterrupted for 30 minutes, but the corresponding iPhone video dropped and fragmented into two files (`IMG_4135` & `IMG_4136`).
+* **Fix**: Developed `rf/build_tensors.py` to ingest explicit anchors (`v1_idx`, `csi1_idx`, etc.). Utilizing absolute monotonic timestamps extrapolated at exactly `1/167Hz`, the script functionally splices/deletes the gap in the massive `.dat` arrays and formally bridges the 30Hz video arrays upwards using dense **PCHIP (`scipy.interpolate`)**, finalizing with a robust Z-Score array background exclusion mapping.
